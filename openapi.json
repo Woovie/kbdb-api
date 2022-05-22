@@ -1,0 +1,261 @@
+{
+    "openapi": "3.0.0",
+    "components": {
+        "schemas": {
+            "region": {
+                "title": "Region",
+                "type": "object",
+                "description": "A region which a vendor may be in",
+                "properties": {
+                    "country_code": {
+                        "description": "ISO 3166-1 alpha-2 country code",
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "friendly_name": {
+                        "description": "Country name in title case",
+                        "type": "string"
+                    }
+                }
+            },
+            "vendor": {
+                "title": "Vendor",
+                "type": "object",
+                "description": "A vendor who sells keyboard products",
+                "properties": {
+                    "domain": {
+                        "description": "The domain of the vendor",
+                        "type": "string"
+                    },
+                    "friendly_name": {
+                        "description": "The name of the vendor to display to the user",
+                        "type": "string"
+                    },
+                    "logo": {
+                        "description": "Logo image name",
+                        "type": "string"
+                    },
+                    "region": {
+                        "description": "The region the vendor is in",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/region"
+                            }
+                        ]
+                    },
+                    "stocks": {
+                        "description": "All of the products sold by this vendor in form of stock objects which have an associated product",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/stock"
+                        }
+                    },
+                    "currency": {
+                        "description": "The currency used for this given stock",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/currency"
+                            }
+                        ]
+                    }
+                }
+            },
+            "product": {
+                "title": "Product",
+                "type": "object",
+                "description": "A product sold by a vendor",
+                "properties": {
+                    "friendly_name": {
+                        "description": "The name of the product",
+                        "type": "string"
+                    },
+                    "categories": {
+                        "description": "What categories your product is part of",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/category"
+                        }
+                    },
+                    "id": {
+                        "description": "UUID representing this particular product",
+                        "type": "string"
+                    }
+                }
+            },
+            "category": {
+                "title": "Category",
+                "type": "object",
+                "description": "A category for product types",
+                "properties": {
+                    "friendly_name": {
+                        "description": "The name of the category",
+                        "type": "string"
+                    },
+                    "id": {
+                        "description": "UUID generated from category name",
+                        "type": "string"
+                    }
+                }
+            },
+            "stock": {
+                "title": "Stock",
+                "type": "object",
+                "description": "The stock of a product at a specific vendor",
+                "properties": {
+                    "product": {
+                        "description": "Which product this stock is associated with",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/product"
+                            }
+                        ]
+                    },
+                    "vendor": {
+                        "description": "Which vendor this given stock is for",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/vendor"
+                            }
+                        ]
+                    },
+                    "id": {
+                        "description": "UUID generated from the URL",
+                        "type": "string"
+                    },
+                    "in_stock": {
+                        "description": "Whether or not this is in stock at the given vendor",
+                        "type": "boolean"
+                    },
+                    "price": {
+                        "description": "The price of the stock",
+                        "type": "number"
+                    },
+                    "quantity": {
+                        "description": "The amount of the given product you will receive at the defined price",
+                        "type": "number"
+                    },
+                    "url": {
+                        "description": "The URL where this stock can be purchased",
+                        "type": "string"
+                    }
+                }
+            },
+            "currency": {
+                "title": "Currency",
+                "type": "object",
+                "description": "A currency associated with a given vendor",
+                "properties": {
+                    "friendly_name": {
+                        "description": "The name of the currency",
+                        "type": "string"
+                    },
+                    "currency_code": {
+                        "description": "ISO 4217 code",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    },
+    "info": {
+        "contact": {
+            "email": "",
+            "name": "",
+            "url": ""
+        },
+        "description": "",
+        "termsOfService": "",
+        "title": "",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/vendors": {
+            "get": {
+                "description": "Returns all vendors",
+                "operationId": "GetVendors",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "",
+                                    "data": {
+                                        "items": {
+                                            "$ref": "#/components/schemas/vendor"
+                                        }
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/vendor/{vendor_url}": {
+
+        },
+        "/vendor/{vendor_url}/products": {
+
+        },
+        "/vendor/{vendor_url}/product/{stock_id}": {
+
+        },
+        "/vendor/{vendor_url}/region": {
+
+        },
+        "/vendor/{vendor_url}/currency": {
+
+        },
+        "/products": {
+
+        },
+        "/product/{product_id}": {
+
+        },
+        "/product/{product_id}/stocks": {
+
+        },
+        "/product/{product_id}/{stock_id}": {
+
+        },
+        "/regions": {
+
+        },
+        "/region/{country_code}": {
+
+        },
+        "/categories": {
+
+        },
+        "/category/{category_id}": {
+
+        },
+        "/currencies": {
+
+        },
+        "/currency/{currency_code}": {
+
+        },
+        "/stock/{stock_id}": {
+
+        }
+    },
+    "security": [
+        {
+            "basicAuth": [
+
+            ]
+        },
+        {
+            "bearerAuth": [
+
+            ]
+        }
+    ],
+    "servers": [
+        {
+            "url": ""
+        }
+    ]
+}
